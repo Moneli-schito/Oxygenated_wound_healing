@@ -1,0 +1,3 @@
+condition,beta_surrounding_s_inv,wound_perfusion_fraction,centre_po2_mmHg,mean_wound_po2_mmHg,mean_surrounding_po2_mmHg,min_wound_po2_mmHg,hypoxic_area_below_20_percent,hypoxic_area_below_40_percent,hypoxic_area_below_48.41_percent,clearance_below_20_time_s,clearance_below_40_time_s,clearance_below_48.41_time_s
+normal,0.0069,0.5,52.174522493671184,53.23542664194247,55.962359637065134,52.174522493671184,0.0,0.0,0.0,23.9,169.3,343.8
+diabetic,0.00477,0.5,48.79589635582882,50.2309515982022,54.021952431068804,48.79589635582882,0.0,0.0,0.0,28.8,228.5,561.4
