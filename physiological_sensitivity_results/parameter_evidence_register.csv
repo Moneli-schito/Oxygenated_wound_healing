@@ -1,0 +1,11 @@
+Parameter,Value,Units,Evidence classification,Source,Scientific limitation
+Oxygen diffusion D,1.7e-09,m2/s,Literature-derived proxy,"Ehsan and George (2013), DOI: 10.1089/ten.TEA.2012.0587","Measured in fibrin hydrogel, not diabetic wound tissue"
+Maximum consumption Vmax,1.3e-17,mol/cell/s,Literature-derived proxy,"Ehsan and George (2013), DOI: 10.1089/ten.TEA.2012.0587",Measured using normal human lung fibroblasts
+Michaelis constant Km,0.008,mol/m3,Literature-derived proxy,"Ehsan and George (2013), DOI: 10.1089/ten.TEA.2012.0587",Not measured specifically in diabetic wounds
+Cell density,2850000000000.0,cells/m3,Literature-derived proxy,"Ehsan and George (2013), DOI: 10.1089/ten.TEA.2012.0587","Engineered tissue cell density, not patient wound density"
+Oxygen solubility,0.00126,mol/m3/mmHg,Approximate literature proxy,"Ehsan and George (2013), DOI: 10.1089/ten.TEA.2012.0587",Current value is not identical to paper's reported value
+Effective source oxygen,60.0,mmHg,Model assumption,No direct supporting source verified,Requires interpretation and sensitivity analysis
+Normal perfusion,0.0069,1/s,Model assumption,No direct supporting source verified,"Effective exchange coefficient, not measured blood flow"
+Diabetic perfusion,0.00477,1/s,Model assumption,No direct supporting source verified,Chosen impairment scenario
+Wound perfusion fraction,0.5,dimensionless,Model assumption,No direct supporting source verified,Wound-specific perfusion reduction
+Initial wound centre oxygen,10.0,mmHg,Model assumption,No direct supporting source verified,Hypothetical initial wound condition

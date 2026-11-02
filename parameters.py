@@ -34,8 +34,16 @@ rho_cell = 2.85e12      # cells/m^3
 # --------------------------------------------
 # 4. OXYGEN CONCENTRATIONS
 # --------------------------------------------
-
-Cb = 0.144              # Blood/source oxygen concentration (mol/m^3)
+# LEGACY PARAMETER
+#
+# Retained for compatibility with earlier simulations.
+# Equivalent to approximately 114.29 mmHg using alpha_O2.
+#
+# NOT the active oxygen source in
+# final_gradient_simulation_corrected.py.
+#
+# Do not modify until legacy experiments are archived.
+Cb = 0.144              # mol/m^3
 
 C0 = 0.091              # Initial tissue oxygen concentration (mol/m^3)
 
@@ -130,6 +138,8 @@ dy = 1e-4               # Grid spacing in y = 0.1 mm
 # --------------------------------------------
 # 8. TIME SETTINGS
 # --------------------------------------------
+# Legacy default time step.
+# The corrected spatial-gradient simulation uses DT = 0.1 s.
 
 dt = 0.01               # Time step (seconds)
 
