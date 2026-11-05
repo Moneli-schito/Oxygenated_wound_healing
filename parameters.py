@@ -1,3 +1,4 @@
+
 # ============================================
 # OXYGENATED WOUND HEALING MODEL
 # Model Parameters
@@ -26,33 +27,107 @@ Km = 8.0e-3             # Michaelis-Menten constant (mol/m^3)
 
 # Literature value = 2.85e6 cells/mL
 # Converted to SI units:
+
 rho_cell = 2.85e12      # cells/m^3
 
 
 # --------------------------------------------
 # 4. OXYGEN CONCENTRATIONS
 # --------------------------------------------
-
-Cb = 0.144              # Blood/source oxygen concentration (mol/m^3)
+# LEGACY PARAMETER
+#
+# Retained for compatibility with earlier simulations.
+# Equivalent to approximately 114.29 mmHg using alpha_O2.
+#
+# NOT the active oxygen source in
+# final_gradient_simulation_corrected.py.
+#
+# Do not modify until legacy experiments are archived.
+Cb = 0.144              # mol/m^3
 
 C0 = 0.091              # Initial tissue oxygen concentration (mol/m^3)
 
-C_boundary = 0.091      # Fixed boundary oxygen concentration (mol/m^3)
+# Retained for compatibility with earlier
+# fixed-boundary simulations.
+# Not used in the revised zero-flux model.
 
-C_hyp = 0.061           # Working hypoxia threshold (mol/m^3)
+C_boundary = 0.091      # mol/m^3
 
+# Provisional working hypoxia threshold.
+# Not yet validated as a clinical wound threshold.
 
-# --------------------------------------------
-# 5. 2D WOUND DOMAIN
-# --------------------------------------------
-
-Lx = 0.01               # Domain width = 10 mm = 0.01 m
-
-Ly = 0.01               # Domain height = 10 mm = 0.01 m
+C_hyp = 0.061           # mol/m^3
 
 
 # --------------------------------------------
-# 6. SPATIAL RESOLUTION
+# 5. OXYGEN PARTIAL PRESSURE CONVERSION
+# --------------------------------------------
+
+# Henry's law:
+#
+#     C = alpha * pO2
+#
+# Therefore:
+#
+#     pO2 = C / alpha
+#
+# C: oxygen concentration (mol/m^3)
+# pO2: oxygen partial pressure (mmHg)
+# alpha: oxygen solubility (mol/(m^3 * mmHg))
+#
+# This provisional coefficient approximates
+# oxygen solubility in plasma at 37 degrees C.
+#
+# It is NOT a validated skin wound-tissue
+# solubility coefficient.
+#
+# Tissue-specific literature validation is
+# required before physiological interpretation.
+
+alpha_O2 = 1.26e-3      # mol/(m^3 * mmHg)
+
+
+def concentration_to_pO2(C):
+    """
+    Convert dissolved oxygen concentration
+    (mol/m^3) to partial pressure (mmHg).
+
+    Works with scalars and NumPy arrays.
+    """
+
+    return C / alpha_O2
+
+
+def pO2_to_concentration(pO2):
+    """
+    Convert oxygen partial pressure (mmHg)
+    to dissolved concentration (mol/m^3).
+
+    Works with scalars and NumPy arrays.
+    """
+
+    return alpha_O2 * pO2
+
+
+# Derived reference values.
+# These are not independent clinical thresholds.
+
+pO2_hyp = concentration_to_pO2(C_hyp)
+pO2_blood = concentration_to_pO2(Cb)
+pO2_initial = concentration_to_pO2(C0)
+
+
+# --------------------------------------------
+# 6. 2D WOUND DOMAIN
+# --------------------------------------------
+
+Lx = 0.01               # Domain width = 10 mm
+
+Ly = 0.01               # Domain height = 10 mm
+
+
+# --------------------------------------------
+# 7. SPATIAL RESOLUTION
 # --------------------------------------------
 
 dx = 1e-4               # Grid spacing in x = 0.1 mm
@@ -61,47 +136,38 @@ dy = 1e-4               # Grid spacing in y = 0.1 mm
 
 
 # --------------------------------------------
-# 7. TIME SETTINGS
+# 8. TIME SETTINGS
 # --------------------------------------------
+# Legacy default time step.
+# The corrected spatial-gradient simulation uses DT = 0.1 s.
 
 dt = 0.01               # Time step (seconds)
 
-T = 600.0               # Total simulation duration
-                        # 600 seconds = 10 minutes
+T = 600.0               # Duration = 10 minutes
 
 
 # --------------------------------------------
-# 8. PERFUSION PARAMETERS
+# 9. PERFUSION PARAMETERS
 # --------------------------------------------
 
-# Perfusion is represented in the model as:
+# Perfusion equation:
 #
 #     P(C) = beta * (Cb - C)
 #
-# beta therefore has units of s^-1.
+# beta has units of s^-1.
 #
-# beta_normal is the effective baseline perfusion
-# coefficient used for the normal tissue model.
-#
-# beta_diabetic represents reduced microvascular
-# perfusion in the initial diabetic-state model.
-#
-# The diabetic value is currently treated as a
-# provisional modelling value and should be refined
-# as additional literature/supervisor feedback is
-# incorporated.
+# These effective perfusion coefficients are
+# provisional and require further validation.
 
-beta_normal = 6.9e-3       # Normal perfusion coefficient (s^-1)
+beta_normal = 6.9e-3       # s^-1
 
-beta_diabetic = 4.77e-3    # Diabetic/impaired perfusion coefficient (s^-1)
+beta_diabetic = 4.77e-3    # s^-1
 
 
 # --------------------------------------------
-# 9. DEFAULT PERFUSION VALUE
+# 10. DEFAULT PERFUSION VALUE
 # --------------------------------------------
 
-# Keep beta as the normal value so that previous
-# simulation scripts that import "beta" continue
-# to work without modification.
+# Preserve compatibility with previous scripts.
 
 beta = beta_normal
